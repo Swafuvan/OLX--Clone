@@ -13,6 +13,10 @@
   align-items: center;
 }
 
+.headerChildDiv span{
+  cursor: pointer;
+}
+
 .placeSearch {
   width: 16em;
   height: 48px;

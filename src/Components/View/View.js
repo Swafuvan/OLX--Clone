@@ -1,26 +1,47 @@
-import React from 'react';
-
+import React, { useContext, useEffect, useState } from 'react';
 import './View.css';
+import { FirebaseConstent } from '../../store/Context';
+import { useParams } from 'react-router-dom/cjs/react-router-dom';
+
 function View() {
+  const [postDetails, setPostDetails] = useState(null)
+  const { firebase } = useContext(FirebaseConstent);
+  const { id } = useParams()
+  useEffect(() => {
+    firebase.firestore().collection('products').get().then((snapshot) => {
+      snapshot.docs.forEach((product) => {
+        const data = product.data()
+        firebase.firestore().collection('users').doc(data.userId).get()
+          .then((userDoc) => {
+            const userData = userDoc.data();
+            const dataWithUser = { ...data, user: userData }; // Add user details to product data
+            console.log(dataWithUser);
+            if (product.id === id) {
+              setPostDetails(dataWithUser);
+            }
+          })
+      })
+    })
+  }, [])
   return (
     <div className="viewParentDiv">
       <div className="imageShowDiv">
         <img
-          src="../../../Images/R15V3.jpg"
+          src={postDetails && postDetails.url}
           alt=""
         />
       </div>
       <div className="rightSection">
         <div className="productDetails">
-          <p>&#x20B9; 250000 </p>
-          <span>YAMAHA R15V3</span>
-          <p>Two Wheeler</p>
-          <span>Tue May 04 2021</span>
+          <p>&#x20B9; {postDetails && postDetails.price} </p>
+          <span>{postDetails && postDetails.name}</span>
+          <p>{postDetails && postDetails.category}</p>
+          <span>{postDetails && postDetails.createAt}</span>
         </div>
         <div className="contactDetails">
-          <p>Seller details</p>
-          <p>No name</p>
-          <p>1234567890</p>
+          <p>Seller Details</p>
+          <p>{postDetails && postDetails.user.username}</p>
+          <p>{postDetails && postDetails.user.phone}</p>
         </div>
       </div>
     </div>

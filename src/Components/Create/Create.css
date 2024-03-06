@@ -1,12 +1,19 @@
 .centerDiv {
     border: 1px solid black;
     width: max-content;
-    padding: 50px;
+    padding-top: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 40px;
     position: absolute;
-    top: 65%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 6px;
+  }
+
+  .centerDiv span{
+    color: red;
   }
   .input {
     border-top-color: transparent;
