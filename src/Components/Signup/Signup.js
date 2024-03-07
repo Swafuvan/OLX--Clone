@@ -140,7 +140,7 @@ export default function Signup() {
           <br />
           <button>Signup</button>
         </form>
-        <a href='#er' onClick={() => {
+        <a  onClick={() => {
           history.push("/login")
         }}>Login</a>
       </div>
